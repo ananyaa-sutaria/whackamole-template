@@ -1,5 +1,5 @@
 import pygame
-
+import random
 
 
 def main():
@@ -17,13 +17,31 @@ def main():
         height = 16
         square_size = 32
 
-        screen.blit(mole_image, mole_image.get_rect(topleft=(1, 2)))
+        mole_rect = mole_image.get_rect(topleft=(0,0))
+
+        def draw_grid():
+            for i in range(0, screen.get_width(), square_size):
+                pygame.draw.line(screen, (0,0,0), (i,0), (i, screen.get_height()))
+            for i in range(0, screen.get_width(), square_size):
+                pygame.draw.line(screen, (0,0,0), (0, i), (screen.get_width(), i))
+
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        click_x, click_y = event.pos
+
+                        if mole_rect.collidepoint(click_x, click_y):
+                            rand_x = random.randrange(0, width) * square_size
+                            rand_y = random.randrange(0, height) * square_size
+                            mole_rect.topleft = (rand_x, rand_y)
+
             screen.fill("light green")
+            draw_grid()
+            screen.blit(mole_image, mole_rect)
             pygame.display.flip()
             clock.tick(60)
     finally:
