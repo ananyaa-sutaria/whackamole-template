@@ -2,6 +2,7 @@ import pygame
 import random
 
 
+
 def main():
     try:
         pygame.init()
@@ -10,8 +11,6 @@ def main():
         mole_image = pygame.image.load("mole.png")
         screen = pygame.display.set_mode((640, 512))
         clock = pygame.time.Clock()
-
-        #pygame.draw.line(screen, (0,0,0), (x1, y1), (x2, y2))
 
         width = 20
         height = 16
@@ -22,7 +21,7 @@ def main():
         def draw_grid():
             for i in range(0, screen.get_width(), square_size):
                 pygame.draw.line(screen, (0,0,0), (i,0), (i, screen.get_height()))
-            for i in range(0, screen.get_width(), square_size):
+            for i in range(0, screen.get_height(), square_size):
                 pygame.draw.line(screen, (0,0,0), (0, i), (screen.get_width(), i))
 
         running = True
@@ -31,13 +30,14 @@ def main():
                 if event.type == pygame.QUIT:
                     running = False
 
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        click_x, click_y = event.pos
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = event.pos
 
-                        if mole_rect.collidepoint(click_x, click_y):
-                            rand_x = random.randrange(0, width) * square_size
-                            rand_y = random.randrange(0, height) * square_size
-                            mole_rect.topleft = (rand_x, rand_y)
+                    if mole_rect.collidepoint(mouse_x, mouse_y):
+
+                        rand_x = random.randrange(0, width) * square_size
+                        rand_y = random.randrange(0, height) * square_size
+                        mole_rect.topleft = (rand_x, rand_y)
 
             screen.fill("light green")
             draw_grid()
